@@ -15,6 +15,7 @@ class Category(models.Model):
         verbose_name = "Categoría"
         verbose_name_plural = "Categorías"
         ordering = ['name']
+        db_table = 'categorias' 
     def __str__(self):
         return self.name
 auditlog.register(Category)
@@ -29,7 +30,8 @@ class Manual(models.Model):
     class Meta:
         verbose_name = "Manual"
         verbose_name_plural = "Manuales"
-        ordering = ['title']
+        ordering = ['title', '-created_at']
+        db_table = 'manuales' 
 
     def __str__(self):
         return self.title    
@@ -49,7 +51,7 @@ class Procedure(models.Model):
         verbose_name_plural = "Procedimientos"
         unique_together = ('manual', 'title', 'version') 
         ordering = ['manual__title', 'title', '-version']
-
+        db_table = 'procedimientos' 
     def __str__(self):
         return f"{self.title} (v{self.version}) - {self.manual.title}"
 auditlog.register(Procedure)
@@ -71,7 +73,8 @@ class DocumentFile(models.Model):
     class Meta:
         ordering = ['-version_number', '-uploaded_at'] 
         verbose_name = "Archivo Adjunto"
-        verbose_name_plural = "Archivos Adjuntos"     
+        verbose_name_plural = "Archivos Adjuntos"
+        db_table = 'bytefiles'     
     def __str__(self):
         return f"{self.procedure.title} - {self.title} (v{self.version_number})"
 auditlog.register(DocumentFile)
@@ -83,6 +86,12 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ['-uploaded_at'] 
+        verbose_name = "Perfil del Usuario"
+        verbose_name_plural = "Perfiles de los Usuarios" 
+        db_table = 'profile' 
     def __str__(self):
         return f'Perfil de {self.user.username}'
 
