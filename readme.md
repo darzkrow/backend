@@ -1,4 +1,4 @@
-# Nombre del Proyecto: Manuales Empresariales (o el nombre real de tu App)
+# Nombre del Proyecto: Manuales Empresariales
 
 ## 🚀 Visión General del Proyecto
 
